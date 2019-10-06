@@ -1,5 +1,6 @@
 FROM alpine
-LABEL MAINTAINER="James O'Beirne <james@chaincode.com>"
+
+LABEL MAINTAINER="Faruk Terzioğlu <faruk.terzioglu@hotmail.com>"
 
 ARG VERSION=0.17.1
 ARG GLIBC_VERSION=2.29-r0
@@ -27,10 +28,6 @@ RUN apk update \
   && rm -rf /bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz \
   && apk del tar wget ca-certificates
 
-EXPOSE 8332 8333 18332 18333 28332 28333
+EXPOSE 18443
 
-ADD VERSION .
-ADD ./bin/docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-RUN chmod a+x /usr/local/bin/docker_entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
+ENTRYPOINT ["bitcoind"]
