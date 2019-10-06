@@ -30,4 +30,8 @@ RUN apk update \
 
 EXPOSE 18443
 
-ENTRYPOINT ["bitcoind"]
+ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+ADD ./bitcoin.conf /usr/local/bin/bitcoin.conf
+RUN chmod a+x /usr/local/bin/docker_entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
