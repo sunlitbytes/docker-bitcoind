@@ -18,11 +18,16 @@ $ cp ./bitcoin.conf /home/$USER/bitcoin_data
 # Edit bitcoin.conf if required
 $ nano /home/$USER/bitcoin_data/bitcoin.conf 
 
-$ docker run --name bitcoind -d --volume /home/$USER/bitcoin_data:/root/.bitcoin -p 127.0.0.1:443:18443 bitcoind
-
+$ docker run --name bitcoind -d \
+    --volume /home/$USER/bitcoin_data:/root/.bitcoin \
+    -p 127.0.0.1:443:18443 \
+    bitcoind
 $ docker logs -f bitcoind (Ctrl+C to exit)
 
-$ curl --user myuser:SomeDecentp4ssw0rd  --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' -H 'content-type:text/plain;' http://127.0.0.1:443/
+$ curl --user myuser:SomeDecentp4ssw0rd \
+    --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' \
+    -H 'content-type:text/plain;' \
+    http://127.0.0.1:443/
 ```
 
 ## Alternatives
