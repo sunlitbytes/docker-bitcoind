@@ -11,8 +11,8 @@ Requires that [Docker be installed](https://docs.docker.com/install/) on the hos
 ## Run a simulation (regtest) bitcoin node using Bitcoin Core daemon (bitcoind) 
 ```bash
 $ docker run --name bitcoind -d \
-    --volume /home/$USER/bitcoin_data:/root/.bitcoin \
-    -p 127.0.0.1:443:18443 \
+    --volume $HOME/bitcoin_data:/root/.bitcoin \
+    -p 127.0.0.1:18443:18443 \
     farukter/bitcoind:regtest
 ```
 
@@ -22,7 +22,23 @@ $ docker run --name bitcoind -d \
 $ curl --user myuser:SomeDecentp4ssw0rd \
     --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' \
     -H 'content-type:text/plain;' \
-    http://127.0.0.1:443/
+    http://127.0.0.1:18443/
+
+$ curl --user myuser:SomeDecentp4ssw0rd \
+    --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getnewaddress","params":[]}' \
+    -H 'content-type:text/plain;' \
+    http://127.0.0.1:18443/
+
+Response;  
+{"result":"[ADDRESS]","error":null,"id":"curltext"}
+
+$ curl --user myuser:SomeDecentp4ssw0rd \
+    --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"generatetoaddress","params":[1,"REPLACE-WITH-[ADDRESS]"]}' \
+    -H 'content-type:text/plain;' \
+    http://127.0.0.1:18443/
+
+Response;  
+{"result":["[BLOCKID]"],"error":null,"id":"curltext"}
 ```
 
 ## or build manually & configure bitcoind 
@@ -32,14 +48,14 @@ $ cd docker-bitcoind
 $ docker build -t bitcoind .
 
 # Create some directory where your bitcoin data will be stored.
-$ mkdir /home/$USER/bitcoin_data
-$ cp ./bitcoin.conf /home/$USER/bitcoin_data
+$ mkdir $HOME/bitcoin_data
+$ cp ./bitcoin.conf $HOME/bitcoin_data
 # Edit bitcoin.conf if required
-$ nano /home/$USER/bitcoin_data/bitcoin.conf 
+$ nano $HOME/bitcoin_data/bitcoin.conf 
 
 $ docker run --name bitcoind -d \
-    --volume /home/$USER/bitcoin_data:/root/.bitcoin \
-    -p 127.0.0.1:443:18443 \
+    --volume $HOME/bitcoin_data:/root/.bitcoin \
+    -p 127.0.0.1:18443:18443 \
     bitcoind
 ```
 
