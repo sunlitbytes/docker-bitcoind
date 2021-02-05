@@ -8,6 +8,7 @@ rpcpassword=SomeDecentp4ssw0rd
 rpcclienttimeout=30
 rpcallowip=::/0
 rpcport=8443
+rpcbind=0.0.0.0:8443
 
 printtoconsole=1
 dbcache=512

@@ -2,11 +2,11 @@ FROM alpine
 
 LABEL MAINTAINER="Faruk Terzioğlu <faruk.terzioglu@hotmail.com>"
 
-ARG VERSION=0.19.0.1
+ARG VERSION=0.20
 ARG GLIBC_VERSION=2.29-r0
 
 ENV FILENAME bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
-ENV DOWNLOAD_URL https://bitcoin.org/bin/bitcoin-core-${VERSION}/${FILENAME}
+ENV DOWNLOAD_URL https://bitcoincore.org/bin/bitcoin-core-${VERSION}/${FILENAME}
 
 # Some of this was unabashadly yanked from
 # https://github.com/szyhf/DIDockerfiles/blob/master/bitcoin/alpine/Dockerfile

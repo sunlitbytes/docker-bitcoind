@@ -45,7 +45,7 @@ Response;
 ```bash
 $ git clone https://github.com/farukterzioglu/docker-bitcoind.git
 $ cd docker-bitcoind
-$ docker build -t bitcoind .
+$ docker build -t bitcoind --build-arg VERSION=0.20.1 .
 
 # Create some directory where your bitcoin data will be stored.
 $ mkdir $HOME/bitcoin_data
@@ -54,9 +54,11 @@ $ cp ./bitcoin.conf $HOME/bitcoin_data
 $ nano $HOME/bitcoin_data/bitcoin.conf 
 
 $ docker run --name bitcoind -d \
-    --volume $HOME/bitcoin_data:/root/.bitcoin \
+    --volume $HOME/.bitcoin:/root/.bitcoin \
     -p 127.0.0.1:18443:18443 \
     bitcoind
+
+$ docker logs -f bitcoind
 ```
 
 ## Alternatives
