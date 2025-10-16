@@ -1,32 +1,25 @@
-FROM alpine
+FROM ubuntu:noble
 
 LABEL MAINTAINER="Faruk Terzioğlu <faruk.terzioglu@hotmail.com>"
 
-ARG VERSION=0.20
-ARG GLIBC_VERSION=2.29-r0
+ARG VERSION=30.0
 
-ENV FILENAME bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
-ENV DOWNLOAD_URL https://bitcoincore.org/bin/bitcoin-core-${VERSION}/${FILENAME}
+ENV FILENAME=bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
+ENV DOWNLOAD_URL="https://bitcoincore.org/bin/bitcoin-core-30.0/bitcoin-30.0-x86_64-linux-gnu.tar.gz"
 
 # Some of this was unabashadly yanked from
 # https://github.com/szyhf/DIDockerfiles/blob/master/bitcoin/alpine/Dockerfile
 
-RUN apk update \
-  && apk --no-cache add wget tar bash ca-certificates \
-  && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
-  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
-  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk \
-  && apk --no-cache add glibc-${GLIBC_VERSION}.apk \
-  && apk --no-cache add glibc-bin-${GLIBC_VERSION}.apk \
-  && rm -rf /glibc-${GLIBC_VERSION}.apk \
-  && rm -rf /glibc-bin-${GLIBC_VERSION}.apk \
+RUN apt-get update \
+  && apt-get install -y wget tar bash ca-certificates \
   && wget $DOWNLOAD_URL \
-  && tar xzvf /bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz \
+  && tar xzvf /bitcoin-30.0-x86_64-linux-gnu.tar.gz \
   && mkdir /root/.bitcoin \
-  && mv /bitcoin-${VERSION}/bin/* /usr/local/bin/ \
-  && rm -rf /bitcoin-${VERSION}/ \
-  && rm -rf /bitcoin-${VERSION}-x86_64-linux-gnu.tar.gz \
-  && apk del tar wget ca-certificates
+  && mv /bitcoin-30.0/bin/* /usr/local/bin/ \
+  && rm -rf /bitcoin-30.0/ \
+  && rm -rf /bitcoin-30.0-x86_64-linux-gnu.tar.gz \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 18443
 
